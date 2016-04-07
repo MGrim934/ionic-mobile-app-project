@@ -1,10 +1,13 @@
 angular.module('starter.controllers', [])
 
 .controller('EntryCtrl', function($scope,Tasks) {
+    
     var todo={
         task: "",
         type: "",
-        due: new Date()
+        due: new Date(),
+        min: new Date()
+       /* http://stackoverflow.com/questions/29086764/set-min-date-to-current-date-in-angularjs-input*/
     }
     $scope.todo=todo;
     //function
@@ -46,6 +49,12 @@ angular.module('starter.controllers', [])
 
         $scope.openModal();
        
+    }
+    
+    function archive(index){
+        Task.archiveTask(Tasks.todo.list[index]);
+    
+    
     }
     
     function removeTask(index){
@@ -91,7 +100,58 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('FilterCtrl', function($scope) {
+.controller('FilterCtrl', function($scope,Tasks,$ionicModal) {
+    $scope.taskTypes=Tasks.taskTypes;
+    //for the modal
+    
+    $scope.newCat={
+        title: ""
+    }
+    
+    function addCat(){
+        Tasks.addCategory($scope.newCat.title);
+        $scope.closeModal();
+        //close the modal
+    }
+    $scope.addCat=addCat;
+    $scope.addType= function (){
+        console.log("error");
+        $scope.openModal();
+    }
+    
+    
+        $ionicModal.fromTemplateUrl('templates/cat-modal.html',{
+        scope: $scope,
+        animation: 'slide-in-up'
+        
+    }).then(function(modal){
+        $scope.modal=modal
+        
+        
+    })
+    
+
+    $scope.openModal = function() {
+    $scope.modal.show();
+    
+    }
+
+    $scope.closeModal = function() {
+    $scope.modal.hide();
+      
+        
+        
+    };
+
+    $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+        
+    });
+    
+    //completed tasks and stuff
+    $scope.completedTasks=Tasks.completedTasks;
+
+
 
 })
 

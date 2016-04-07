@@ -57,7 +57,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-filter': {
         templateUrl: 'templates/tab-filter.html',
-        controller: 'filterCtrl'
+        controller: 'FilterCtrl'
       }
     }
   });
