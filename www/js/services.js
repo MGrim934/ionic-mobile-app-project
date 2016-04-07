@@ -13,11 +13,14 @@ angular.module('starter.services', [])
                          ]}
     
     //function to set a task
-    function addToDo(task,type){
+    function addToDo(task,type,due){
         //set the name
-        var task = {task: task, type: type, dateSet: new Date(), due: new Date()};
+        var task = {task: task, type: type, dateSet: new Date(), due: new Date(due)};
         todo.list.push(task);
     }
+    
+    
+    
   
   return {
       taskTypes: taskTypes,
@@ -25,4 +28,6 @@ angular.module('starter.services', [])
       todo: todo
 
   };
-});
+})
+
+;

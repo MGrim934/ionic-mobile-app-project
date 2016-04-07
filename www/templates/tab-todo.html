@@ -1,23 +1,21 @@
-<ion-view view-title="Chats">
+<ion-view view-title="ToDos!">
   <ion-content>
       <h1>To do!</h1>
-              <ion-item-sliding ng-repeat="item in todo.list">
-    <ion-list>
-
-      <ion-item >
+    <ion-list show-delete="toggles.delete" can-swipe="toggles.swipe">
+      <ion-item ng-repeat="item in todo.list" ng-click="update($index)">
         <h1>{{item.task}}</h1> 
         <h2>{{item.type}}</h2>
-        <h2>{{item.dateSet}}</h2>
-        <h2>{{item.due}}</h2>
+        <h2>Set: {{item.dateSet.toDateString()}} Due: {{item.due.toDateString()}}</h2>
+          <ion-option-button class="button button-positive" ng-click="update($index)"> Update Due Date</ion-option-button>
+          <ion-option-button class="button button-assertive" ng-click="removeTask($index)"> Clear Task</ion-option-button>
+          <ion-delete-button class="ion-minus-circled" ng-click="removeTask($index)"></ion-delete-button>
+        
       </ion-item>
         
-        <ion-item-options>
-      <button danger (click)="removeItem(item)"><icon trash></icon> Delete</button>
-    </ion-item-options>
+<ion-toggle ng-model="toggles.delete">
+  Show Delete?
+</ion-toggle>
     </ion-list>
-                  
-    </ion-item-sliding>
-        
       
     
   </ion-content>
