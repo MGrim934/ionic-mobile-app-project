@@ -11,12 +11,17 @@
     <span class="input-label">To Do:</span>
     <input type="text" ng-model="todo.task" placeholder="Enter Task!">
   </label>
+        
+  <label class="item item-input">
+    <span class="input-label">Task Description</span>
+    <input type="text" ng-model="todo.description" placeholder="Enter Description">
+  </label>
   <label class="item item-input item-select"  >
     <div class="input-label">
       Task Type
     </div>
     <select ng-model="todo.type" >
-      <option selected ng-repeat="task in taskTypes.taskNames" value="{{task}}">{{task}}</option>
+      <option selected ng-repeat="task in taskTypes" value="{{task.title}}">{{task.title}}</option>
         <!-- loops through all tasks-->
 
     </select>
@@ -26,8 +31,9 @@
     <span class="input-label">Due Date: </span>
     <input type="date" min="{{todo.min | date: 'yyyy-MM-dd'}}" ng-model="todo.due" placeholder="Enter Due Date!">
   </label>
-        <button ng-click="add()">Add Task</button>
+        <button class="button button-royal" ng-click="add()">Add Task</button>
     </div>
+      <button class="button" ng-click="openModal()">Add Another Category</button>
 
 
   </ion-content>

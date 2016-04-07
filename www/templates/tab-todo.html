@@ -4,9 +4,9 @@
      <!-- http://stackoverflow.com/questions/29086764/set-min-date-to-current-date-in-angularjs-input-->
     <ion-list show-delete="toggles.delete" can-swipe="toggles.swipe">
       <ion-item ng-repeat="item in todo.list" ng-click="update($index)">
-        <h1>{{item.task}}</h1> 
-        <h2>{{item.type}}</h2>
-        <h2>Set: {{item.dateSet.toDateString()}} Due: {{item.due.toDateString()}}</h2>
+        <h2>{{item.task}}</h2> 
+        <h3>{{item.type}} Due: {{item.due.toDateString()}}</h3>
+         
           <ion-option-button class="button button-positive" ng-click="update($index)"> Update Due Date</ion-option-button>
           <ion-option-button class="button button-positive" ng-click="archive($index)"> Archive</ion-option-button>
           <ion-option-button class="button button-assertive" ng-click="removeTask($index)"> Clear Task</ion-option-button>

@@ -2,7 +2,7 @@
   <ion-content>
       <h1>Stuff</h1>
       <ion-list>
-      <ion-item ng-repeat="item in taskTypes.taskNames">{{item}}</ion-item></ion-list>
+      <ion-item ng-repeat="item in taskTypes">{{item.title}}</ion-item></ion-list>
       <button class="button" ng-click="addType()">Add Another Category</button>
       <h1>Completed Tasks</h1>
       <ion-list>

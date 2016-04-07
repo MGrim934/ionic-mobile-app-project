@@ -1,11 +1,17 @@
 <ion-modal-view>
-          <div class="New Due Date">
+          <div class="More Details">
           <ion-header-bar>
-            <h1 class="title">Update Due Date</h1>
+            <h1 class="title">More Details</h1>
             </ion-header-bar>
               <ion-content>
                   <h1>{{change.task}}</h1>
-                <div class="list">
+                  <h2>{{change.type}}</h2>
+                  <h4>Set: {{change.dateSet.toDateString()}} Due: {{change.due.toDateString()}} </h4>
+                  
+                <ion-toggle ng-model="toggles.update">
+                  Change Date?
+                </ion-toggle>   
+                <div class="list" ng-show="toggles.update">
                   <label class="item item-input">
                     <span class="input-label">Due Date: </span>
                     <input type="date" ng-model="change.due" placeholder="Enter Due Date!">
@@ -15,8 +21,8 @@
               
 
                   </div> 
-                      
-                <button class="button button-royal" ng-click="closeModal()">Done!</button>
+
+                  <button class="button button-royal" ng-click="closeModal()">Done!</button>
               
 
              
