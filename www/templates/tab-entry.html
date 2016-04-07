@@ -1,0 +1,29 @@
+<ion-view view-title="Entry">
+  <ion-content class="padding">
+      <h1>New Entry!</h1>
+      <!-- Goal here is to allow the user to
+        add a new entry
+        due date
+        type of todo - work/personal/groceries-->
+
+    <div class="list">
+  <label class="item item-input">
+    <span class="input-label">To Do:</span>
+    <input type="text" ng-model="todo.task" placeholder="Enter Task!">
+  </label>
+  <label class="item item-input item-select"  >
+    <div class="input-label">
+      Task Type
+    </div>
+    <select ng-model="todo.type" >
+      <option selected ng-repeat="task in taskTypes.taskNames" value="{{task}}">{{task}}</option>
+        <!-- loops through all tasks-->
+
+    </select>
+  </label>
+        <button ng-click="add()">Add Task</button>
+    </div>
+
+
+  </ion-content>
+</ion-view>

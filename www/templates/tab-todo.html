@@ -1,0 +1,24 @@
+<ion-view view-title="Chats">
+  <ion-content>
+      <h1>To do!</h1>
+              <ion-item-sliding ng-repeat="item in todo.list">
+    <ion-list>
+
+      <ion-item >
+        <h1>{{item.task}}</h1> 
+        <h2>{{item.type}}</h2>
+        <h2>{{item.dateSet}}</h2>
+        <h2>{{item.due}}</h2>
+      </ion-item>
+        
+        <ion-item-options>
+      <button danger (click)="removeItem(item)"><icon trash></icon> Delete</button>
+    </ion-item-options>
+    </ion-list>
+                  
+    </ion-item-sliding>
+        
+      
+    
+  </ion-content>
+</ion-view>
