@@ -14,12 +14,13 @@ angular.module('starter.controllers', [])
     //function
     function add (){
         Tasks.addToDo(todo.task,todo.description,todo.type,todo.due);
+        Tasks.addTaskToMap(todo.task,todo.description,todo.type,todo.due);
         //passing in the local variable into the factory
         //user doesn't initially change the factory value
         //so if the whole thing explodes, nothing is permanently changed or lost
         //have to submit to actually add it and change in the factory
         //reset the local values
-        console.log(todo.task + "Type "+ todo.type+todo.due);
+       // console.log(todo.task + "Type "+ todo.type+todo.due);
         todo.task="";
         todo.description="";
         
@@ -34,6 +35,7 @@ angular.module('starter.controllers', [])
         title: ""
     }
     
+    //runs from cat-modal.html
     function addCat(){
         Tasks.addCategory($scope.newCat.title);
         $scope.closeModal();
@@ -80,7 +82,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ToDoCtrl', function($scope,Tasks,$ionicModal) {
-    $scope.todo=Tasks.todo;
+    //$scope.todo=Tasks.todo;
+    $scope.taskTypes=Tasks.taskTypes;
+    $scope.currentView=Tasks.getCategoryTasks("Work");
+    $scope.allTasks=Tasks.allTasks;
+    $scope.showAllTasks=Tasks.showAllTasks;
     //local toggles to control delete or update functions
     var toggles={
         delete: false,
@@ -90,7 +96,20 @@ angular.module('starter.controllers', [])
     }
     $scope.toggles=toggles;
     
-
+    function changeView(index){
+        console.log(Tasks.taskTypes[index].title);
+        $scope.currentView=Tasks.getCategoryTasks(Tasks.taskTypes[index].title);
+        //changes the view based on the array index of taskTypes
+    }
+    
+    function changeViewAll(){
+        Tasks.showAllTasks();
+        //ensures allTasks view is up to date
+        
+        $scope.currentView=Tasks.allTasks;
+    }
+    $scope.changeViewAll=changeViewAll;
+    $scope.changeView=changeView;
     
 
     
@@ -98,8 +117,12 @@ angular.module('starter.controllers', [])
     
     function update (index){
         console.log(index);
+        console.log($scope.currentView[index].type);
+        //changeView($scope.currentView[index].type);
+        $scope.change=$scope.currentView[index];
+        //get a reference to the object we want to change
         
-        $scope.change=Tasks.todo.list[index];
+       
        
 
         $scope.openModal();
@@ -107,15 +130,51 @@ angular.module('starter.controllers', [])
     }
     
     function archive(index){
-        Tasks.archiveTask(Tasks.todo.list[index]);
+        console.log("Archive: "+$scope.currentView[index].type);
+        //call the archive method
+        //we wish to archive this current object
+        Tasks.archiveTask($scope.currentView[index]);
         //now remove the task
+        //we dont want it in the primary view anymore though
         removeTask(index);
     
     
     }
     
     function removeTask(index){
-        Tasks.todo.list.splice(index,1);
+        //find map
+        console.log($scope.currentView[index].type);
+        
+        
+        
+        //need to move to the appropriate list
+        //do this by getting the "type" from it and making "removeHere" reference that array
+        
+        $scope.removeHere=Tasks.getCategoryTasks($scope.currentView[index].type);
+        //now compare
+        for(var i=0;i<$scope.removeHere.length;i++){
+            //we need to find it and remove it
+            //http://adripofjavascript.com/blog/drips/object-equality-in-javascript.html
+            //found this useful when researching object equality
+            //when I use push.apply it passes the instance
+            //so if I use === on objects in the two different arrays
+            //it should return true, because the arrays are both referencing the same instance
+            
+            if($scope.removeHere[i]===$scope.currentView[index]){
+                console.log("I found you");
+                $scope.removeHere.splice(index,1);
+                //however there is potential for an error
+                //allTasks still points to this object
+                //we dont want that anymore since its archived
+                //so we'll call showAllTasks to update the list with the most recent information
+                //remove from this list
+                Tasks.showAllTasks();
+              
+                
+            }
+        }
+       // $scope.currentView.splice(index,1);
+        //need to remove from both lists
         //removes
     }
     $scope.removeTask=removeTask;

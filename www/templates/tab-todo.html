@@ -3,7 +3,7 @@
       <h1>To do!</h1>
      <!-- http://stackoverflow.com/questions/29086764/set-min-date-to-current-date-in-angularjs-input-->
     <ion-list show-delete="toggles.delete" can-swipe="toggles.swipe">
-      <ion-item ng-repeat="item in todo.list" ng-click="update($index)">
+      <ion-item ng-repeat="item in currentView" ng-click="update($index)">
         <h2>{{item.task}}</h2> 
         <h3>{{item.type}} Due: {{item.due.toDateString()}}</h3>
          
@@ -18,6 +18,14 @@
   Show Delete?
 </ion-toggle>
     </ion-list>
+      <div class="button-bar"  >
+          <button ng-repeat="type in taskTypes" class="button button-royal" ng-click="changeView($index)">{{type.title}}</button>
+      </div>
+         <ion-item ><button class="button button-royal" ng-click="changeViewAll()">View All Tasks</button>
+          </ion-item>
+    
+      
+
       
     
   </ion-content>
