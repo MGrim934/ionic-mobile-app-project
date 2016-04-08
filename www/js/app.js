@@ -52,12 +52,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
 
-  .state('tab.filter', {
-    url: '/filter',
+  .state('tab.settings', {
+    url: '/settings',
     views: {
-      'tab-filter': {
-        templateUrl: 'templates/tab-filter.html',
-        controller: 'FilterCtrl'
+      'tab-settings': {
+        templateUrl: 'templates/tab-settings.html',
+        controller: 'SettingsCtrl'
       }
     }
   });

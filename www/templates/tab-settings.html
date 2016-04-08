@@ -1,0 +1,24 @@
+<ion-view view-title="Settings">
+  <ion-content>
+      <h1>Stuff</h1>
+      <ion-list>
+      <ion-item ng-repeat="item in taskTypes">{{item.title}}
+          <ion-option-button class="button button-assertive" ng-click="removeType($index)"> Remove Task Type</ion-option-button>
+          </ion-item>
+      </ion-list>
+      <button class="button" ng-click="addType()">Add Another Category</button>
+      <h1>Completed Tasks</h1>
+      <ion-list>
+          <ion-item ng-repeat="item in completedTasks" can-swipe="toggle.swipe">
+            <h1>{{item.task}}</h1> 
+            <h2>{{item.type}}</h2>
+            <h2>Set: {{item.dateSet.toDateString()}} Due: {{item.due.toDateString()}}</h2>
+           
+          
+          </ion-item>
+      
+      </ion-list>
+      <button class="button" ng-click="clearCompletedTasks()">Clear Completed</button>
+
+  </ion-content>
+</ion-view>

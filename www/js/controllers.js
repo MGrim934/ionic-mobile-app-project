@@ -217,13 +217,23 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('FilterCtrl', function($scope,Tasks,$ionicModal) {
+.controller('SettingsCtrl', function($scope,Tasks,$ionicModal) {
     $scope.taskTypes=Tasks.taskTypes;
     //for the modal
     
     $scope.newCat={
         title: ""
     }
+    $scope.toggle= {
+        swipe: true
+    }
+ 
+    function removeType(index){
+        console.log("Removing" + $scope.taskTypes[index].title);
+        Tasks.removeType(index);
+    }
+    $scope.removeType=removeType;
+    
     
     function addCat(){
         Tasks.addCategory($scope.newCat.title);
@@ -267,6 +277,10 @@ angular.module('starter.controllers', [])
     
     //completed tasks and stuff
     $scope.completedTasks=Tasks.completedTasks;
+    function clearCompletedTasks(){
+        Tasks.clearCompletedTasks();
+    }
+    $scope.clearCompletedTasks=clearCompletedTasks;
 
 
 

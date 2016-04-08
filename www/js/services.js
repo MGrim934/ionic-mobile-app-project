@@ -10,6 +10,17 @@ angular.module('starter.services', [])
         {title: "Groceries"}
     ]
     
+    function removeType(index){
+        if(index>2){
+            //need to remove map
+            map.delete(taskTypes[index].title);
+            taskTypes.splice(index,1);
+            showAllTasks();
+            //update all tasks
+
+        }
+    }//removeType
+    
     var todo = { list: [
         {task: "Dance", description:"I need to dance..", type: "Work", dateSet: new Date(), due: new Date()},
                          
@@ -95,6 +106,9 @@ angular.module('starter.services', [])
         
     
     ];
+    function clearCompletedTasks(){
+        completedTasks.length=0;
+    }
     
     //function to set a task
     function addToDo(task, description, type,due){
@@ -180,7 +194,9 @@ angular.module('starter.services', [])
       addTaskToMap: addTaskToMap,
       getCategoryTasks: getCategoryTasks,
       allTasks: allTasks,
-      showAllTasks: showAllTasks
+      showAllTasks: showAllTasks,
+      removeType: removeType,
+      clearCompletedTasks: clearCompletedTasks
 
   };
 })
