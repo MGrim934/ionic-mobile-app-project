@@ -83,7 +83,12 @@ angular.module('starter.controllers', [])
 
 .controller('ToDoCtrl', function($scope,Tasks,$ionicModal) {
     //$scope.todo=Tasks.todo;
-    $scope.storeTypes=Tasks.storeTypes;
+   // $scope.storeTypes=Tasks.storeTypes;
+    $scope.sortTask=Tasks.sortTask;
+    $scope.sort={
+        choice: ''
+    }
+
     $scope.taskTypes=Tasks.taskTypes;
     $scope.currentView=Tasks.getCategoryTasks("Work");
     $scope.allTasks=Tasks.allTasks;
@@ -144,7 +149,7 @@ angular.module('starter.controllers', [])
     
     function removeTask(index){
         //find map
-        console.log($scope.currentView[index].type);
+        console.log("found type: "+$scope.currentView[index].type);
         
         
         
@@ -152,6 +157,7 @@ angular.module('starter.controllers', [])
         //do this by getting the "type" from it and making "removeHere" reference that array
         
         $scope.removeHere=Tasks.getCategoryTasks($scope.currentView[index].type);
+        console.log($scope.removeHere[0].title);
         //now compare
         for(var i=0;i<$scope.removeHere.length;i++){
             //we need to find it and remove it
@@ -160,10 +166,16 @@ angular.module('starter.controllers', [])
             //when I use push.apply it passes the instance
             //so if I use === on objects in the two different arrays
             //it should return true, because the arrays are both referencing the same instance
+         
             
-            if($scope.removeHere[i]===$scope.currentView[index]){
+            if($scope.removeHere[i]===$scope.currentView[index]&&$scope.removeHere[i]!=undefined){
+                console.log($scope.removeHere[i].task);
+                console.log($scope.currentView[index].task);
+                
                 console.log("I found you");
-                $scope.removeHere.splice(index,1);
+                $scope.removeHere.splice(i,1);
+                //pass in i instead of index because its removeHere list we want to alter
+                //get rid of object in that position
                 //however there is potential for an error
                 //allTasks still points to this object
                 //we dont want that anymore since its archived

@@ -1,29 +1,40 @@
 <ion-view view-title="ToDos!">
   <ion-content>
-      <h1>To do!</h1>
+      
      <!-- http://stackoverflow.com/questions/29086764/set-min-date-to-current-date-in-angularjs-input-->
-    <ion-list show-delete="toggles.delete" can-swipe="toggles.swipe">
+    <ion-list can-swipe="toggles.swipe">
       <ion-item ng-repeat="item in currentView" ng-click="update($index)">
-        <h2>{{item.task}}</h2> 
+        <h3>{{item.task}}</h3> 
         <h3>{{item.type}} Due: {{item.due.toDateString()}}</h3>
          
           <ion-option-button class="button button-positive" ng-click="update($index)"> Update Due Date</ion-option-button>
           <ion-option-button class="button button-positive" ng-click="archive($index)"> Archive</ion-option-button>
           <ion-option-button class="button button-assertive" ng-click="removeTask($index)"> Clear Task</ion-option-button>
-          <ion-delete-button class="ion-minus-circled" ng-click="removeTask($index)"></ion-delete-button>
+          
         
       </ion-item>
         
-<ion-toggle ng-model="toggles.delete">
-  Show Delete?
-</ion-toggle>
+
     </ion-list>
-      <div class="button-bar"  >
+      <div class="button-bar" >
           <button ng-repeat="type in taskTypes" class="button button-royal" ng-click="changeView($index)">{{type.title}}</button>
       </div>
          <ion-item ><button class="button button-royal" ng-click="changeViewAll()">View All Tasks</button>
           </ion-item>
-      <button ng-click="storeTypes()">Store Tasks</button>
+      <label class="item item-input item-select"  >
+    <div class="input-label">
+      Sort By...
+    </div>
+    <select ng-model="sort.choice" ng-change="sortTask(sort.choice)">
+        <option selected value="A">A to Z</option>
+        <option value="D">Date Due</option>
+        <option value="S">Date Set</option>
+
+    </select>
+  </label>
+      
+      
+      
     
       
 

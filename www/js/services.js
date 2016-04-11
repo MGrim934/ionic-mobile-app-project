@@ -2,6 +2,13 @@ angular.module('starter.services', [])
 
 .factory('Tasks', function() {
     
+    //primary todo list
+    //allow sorting of each list not just allTasks
+    //make it auto save when something is added
+    //instantly update when clear
+    //START STYLING
+    
+    
  
     
  /*   var taskTypes=[
@@ -165,8 +172,13 @@ angular.module('starter.services', [])
     }
     
     function getCategoryTasks(category){
+        console.log("TTTTTTTTTTTEST");
         if(map.has(category)){
+            console.log("returning "+category);
             return map.get(category);
+            
+        }else{
+            console.log("error");
         }
     }
     
@@ -189,6 +201,76 @@ angular.module('starter.services', [])
         
     }//end function
     
+    //functions to sort the lists
+    //http://www.javascriptkit.com/javatutors/arraysort2.shtml
+    //got information on sorting arrays from here
+    
+    function sortTaskDueDate(a,b){
+        //sort by the due date
+        var dateA = new Date(a.due);
+        var dateB = new Date(b.due);
+        return dateA-dateB;
+        //sorts based on positive or negative return
+        
+        
+    }
+    
+    function sortTaskDateSet(a,b){
+        //sort by the date set
+        var dateA = new Date(a.dateSet);
+        var dateB = new Date(b.dateSet);
+        return dateA-dateB;
+        //sorts based on positive or negative return
+        
+        
+    }
+    
+    
+    
+    function sortTaskAZ(a,b){
+        var taskA = a.task.toLowerCase();
+        var taskB = b.task.toLowerCase();
+        if(taskA>taskB){
+            return 1;
+            //A is greater than B
+        }else if(taskA<taskB){
+            return -1;
+            //A is less than B
+        }else{
+            return 0;
+            //both are even, do nothing
+        }
+        
+        
+    }
+    
+    //sorts allTasks
+    //TODO? implement sorting in whatever list is in the view and not just all tasks
+    
+    function sortTask(choice){
+        console.log(choice);
+        
+        switch(choice){
+            case 'A':
+                //A for alphabet
+                allTasks.sort(sortTaskAZ);
+                break;
+            case 'D':
+                allTasks.sort(sortTaskDueDate);
+                //D for Due
+                break;
+            case 'S':
+                allTasks.sort(sortTaskDateSet);
+                //S for set
+                break;
+            default:
+                console.log("Error");
+                break;            
+                
+        }//switch
+        
+    }
+    
 
     
     var completedTasks = [
@@ -199,17 +281,6 @@ angular.module('starter.services', [])
         completedTasks.length=0;
     }
     
-    //function to set a task
-    function addToDo(task, description, type,due){
-        //set the name
-        var valid=validateInput(task,type);
-        if(valid==true){
-        var task = {task: task, description: description, type: type, dateSet: new Date(), due: new Date(due)};
-        todo.list.push(task);
-        }else{
-            console.log("Did not pass validation");
-        }
-    }
     
     function validateInput(task,type){
         //the purpose of this function is to ensure that the user has placed enough info to add a new entry
@@ -275,7 +346,6 @@ angular.module('starter.services', [])
   
   return {
       taskTypes: taskTypes,
-      addToDo: addToDo,
       addCategory: addCategory,
       archiveTask: archiveTask,
       completedTasks: completedTasks,
@@ -287,7 +357,8 @@ angular.module('starter.services', [])
       clearCompletedTasks: clearCompletedTasks,
       storeTypes: storeTypes,
       saveData: saveData,
-      deleteAllData: deleteAllData
+      deleteAllData: deleteAllData,
+      sortTask: sortTask
 
   };
 })

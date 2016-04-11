@@ -1,8 +1,7 @@
 <ion-view view-title="Settings">
   <ion-content>
-      <h1>Stuff</h1>
       <ion-list>
-      <ion-item ng-repeat="item in taskTypes">{{item.title}}
+          <ion-item ng-repeat="item in taskTypes"><h2>{{item.title}}</h2>
           <ion-option-button class="button button-assertive" ng-click="removeType($index)"> Remove Task Type</ion-option-button>
           </ion-item>
       </ion-list>
