@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
     $scope.todo=todo;
     //function
     function add (){
-        Tasks.addToDo(todo.task,todo.description,todo.type,todo.due);
+        //Tasks.addToDo(todo.task,todo.description,todo.type,todo.due);
         Tasks.addTaskToMap(todo.task,todo.description,todo.type,todo.due);
         //passing in the local variable into the factory
         //user doesn't initially change the factory value
@@ -83,6 +83,7 @@ angular.module('starter.controllers', [])
 
 .controller('ToDoCtrl', function($scope,Tasks,$ionicModal) {
     //$scope.todo=Tasks.todo;
+    $scope.storeTypes=Tasks.storeTypes;
     $scope.taskTypes=Tasks.taskTypes;
     $scope.currentView=Tasks.getCategoryTasks("Work");
     $scope.allTasks=Tasks.allTasks;
@@ -219,6 +220,7 @@ angular.module('starter.controllers', [])
 
 .controller('SettingsCtrl', function($scope,Tasks,$ionicModal) {
     $scope.taskTypes=Tasks.taskTypes;
+    $scope.storeTypes=Tasks.storeTypes;
     //for the modal
     
     $scope.newCat={
@@ -276,6 +278,10 @@ angular.module('starter.controllers', [])
     });
     
     //completed tasks and stuff
+    //local storage stuff
+    $scope.saveData=Tasks.saveData;
+    $scope.deleteAllData=Tasks.deleteAllData;
+    
     $scope.completedTasks=Tasks.completedTasks;
     function clearCompletedTasks(){
         Tasks.clearCompletedTasks();

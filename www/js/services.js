@@ -4,11 +4,102 @@ angular.module('starter.services', [])
     
  
     
-    var taskTypes=[
+ /*   var taskTypes=[
         {title: "Work"},
         {title: "Personal"},
         {title: "Groceries"}
-    ]
+    ]*/
+    
+    var taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
+    var map = new Map();
+    
+    
+    
+    
+    function fillTypes(){
+        //if theres nothing stored
+        //it fills the taskTypes with the default fields
+        //this is run when the program starts
+        //if theres stuff stored
+        //it will do nothing
+        
+        if(taskTypes==null){
+         taskTypes=[
+        {title: "Work"},
+        {title: "Personal"},
+        {title: "Groceries"}]
+        }
+        
+        //loop through each task type
+        //fill the map key with each stored array
+        
+    }
+    
+    function loadData(){
+        //calls two functions which fill up the taskTypes and the map
+        fillTypes();
+        fillMap();
+    }
+    
+    
+    
+
+    function fillMap(){
+        //go through each taskType
+        //attempt to access a stored object on each one
+        for(var i=0;i<taskTypes.length;i++){
+            if(map.has(taskTypes[i].title)==false){
+                //if the key isn't there then we need to build the map
+                console.log("It hasn't got task type");
+                map.set(taskTypes[i].title,[]);
+                //place the task type into the map
+                
+                //now in the map
+            }
+            //now append to the map
+            
+            var storedList=JSON.parse(window.localStorage.getItem(taskTypes[i].title));
+            //check if its null
+            if(storedList!=null){
+                
+                var mapList = map.get(taskTypes[i].title);
+                //get a reference to the maps list
+                
+                mapList.push.apply(mapList,storedList);
+                //push the stored list into the map
+                //use apply to push each object seperately
+                
+            }//if theres something stored
+        }//for each task type
+    }//fillMap
+    
+    loadData();
+    //this will attempt to load any stored data in
+    
+    function storeTypes(){
+        window.localStorage.setItem('taskTypes',JSON.stringify(taskTypes));
+        //simply stores all taskTypes
+    }
+    function storeMaps(){
+        
+        for(var key of map.keys()){
+            window.localStorage.setItem(key,JSON.stringify(map.get(key)));
+            //eg should store "Work", and the object array associated with it
+        }
+        
+    }
+    
+    function saveData(){
+        storeTypes();
+        storeMaps();
+        //saves the data!
+    }
+    
+    function deleteAllData(){
+        //http://stackoverflow.com/questions/7667958/clear-localstorage
+        window.localStorage.clear();
+        console.log("Clearing everything");
+    }
     
     function removeType(index){
         if(index>2){
@@ -21,14 +112,11 @@ angular.module('starter.services', [])
         }
     }//removeType
     
-    var todo = { list: [
-        {task: "Dance", description:"I need to dance..", type: "Work", dateSet: new Date(), due: new Date()},
-                         
-                 ]}
+
     //got a lot of use out of this when creating map
     //http://bjorn.tipling.com/maps-sets-and-iterators-in-javascript
-    var map = new Map();
-    updateMap();
+    
+    //updateMap();
     
     function updateMap(){
         for(i in taskTypes){
@@ -49,6 +137,7 @@ angular.module('starter.services', [])
     
     
     var allTasks=[{task: "Test", description:"I need to dance..", type: "Work", dateSet: new Date(), due: new Date()}];
+    
     function showAllTasks(){
         //create a list that holds everything
         allTasks.length=0;
@@ -187,7 +276,6 @@ angular.module('starter.services', [])
   return {
       taskTypes: taskTypes,
       addToDo: addToDo,
-      todo: todo,
       addCategory: addCategory,
       archiveTask: archiveTask,
       completedTasks: completedTasks,
@@ -196,7 +284,10 @@ angular.module('starter.services', [])
       allTasks: allTasks,
       showAllTasks: showAllTasks,
       removeType: removeType,
-      clearCompletedTasks: clearCompletedTasks
+      clearCompletedTasks: clearCompletedTasks,
+      storeTypes: storeTypes,
+      saveData: saveData,
+      deleteAllData: deleteAllData
 
   };
 })
