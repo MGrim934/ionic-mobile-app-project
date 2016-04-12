@@ -84,10 +84,12 @@ angular.module('starter.controllers', [])
 .controller('ToDoCtrl', function($scope,Tasks,$ionicModal) {
     //$scope.todo=Tasks.todo;
    // $scope.storeTypes=Tasks.storeTypes;
+    $scope.completedTasks=Tasks.completedTasks;
     $scope.sortTask=Tasks.sortTask;
     $scope.sort={
         choice: ''
     }
+    
 
     $scope.taskTypes=Tasks.taskTypes;
     $scope.currentView=Tasks.getCategoryTasks("Work");
@@ -97,8 +99,16 @@ angular.module('starter.controllers', [])
     var toggles={
         delete: false,
         swipe: true,
-        update:false
+        update:false,
+        filter: false
         
+    }
+    function showFilter(){
+        if(toggles.filter==false){
+            toggles.filter=true;
+        }else{
+            toggles.filter=false;
+        }
     }
     $scope.toggles=toggles;
     
@@ -114,6 +124,11 @@ angular.module('starter.controllers', [])
         
         $scope.currentView=Tasks.allTasks;
     }
+    function viewArchive(){
+        console.log("view complete");
+        $scope.currentView=Tasks.completedTasks;
+    }
+    $scope.viewArchive=viewArchive;
     $scope.changeViewAll=changeViewAll;
     $scope.changeView=changeView;
     
@@ -294,7 +309,7 @@ angular.module('starter.controllers', [])
     $scope.saveData=Tasks.saveData;
     $scope.deleteAllData=Tasks.deleteAllData;
     
-    $scope.completedTasks=Tasks.completedTasks;
+    
     function clearCompletedTasks(){
         Tasks.clearCompletedTasks();
     }

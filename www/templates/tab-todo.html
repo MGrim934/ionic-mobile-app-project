@@ -3,35 +3,38 @@
       
      <!-- http://stackoverflow.com/questions/29086764/set-min-date-to-current-date-in-angularjs-input-->
     <ion-list can-swipe="toggles.swipe">
+        <h2>Tasks</h2>
       <ion-item ng-repeat="item in currentView" ng-click="update($index)">
         <h3>{{item.task}}</h3> 
         <h3>{{item.type}} Due: {{item.due.toDateString()}}</h3>
          
-          <ion-option-button class="button button-positive" ng-click="update($index)"> Update Due Date</ion-option-button>
-          <ion-option-button class="button button-positive" ng-click="archive($index)"> Archive</ion-option-button>
-          <ion-option-button class="button button-assertive" ng-click="removeTask($index)"> Clear Task</ion-option-button>
+          
+          <ion-option-button class="icon-left ion-android-checkmark-circle button-balanced" ng-click="archive($index)">Archive</ion-option-button>
+          <ion-option-button class="icon-left ion-android-cancel button-assertive" ng-click="removeTask($index)">Delete</ion-option-button>
           
         
       </ion-item>
         
 
     </ion-list>
-      <div class="button-bar" >
+      <ion-list ng-show="toggles.filter">
           <button ng-repeat="type in taskTypes" class="button button-royal" ng-click="changeView($index)">{{type.title}}</button>
-      </div>
-         <ion-item ><button class="button button-royal" ng-click="changeViewAll()">View All Tasks</button>
-          </ion-item>
-      <label class="item item-input item-select"  >
-    <div class="input-label">
-      Sort By...
-    </div>
-    <select ng-model="sort.choice" ng-change="sortTask(sort.choice)">
-        <option selected value="A">A to Z</option>
-        <option value="D">Date Due</option>
-        <option value="S">Date Set</option>
+          <button class="button button-royal" ng-click="changeViewAll()">View All Tasks</button>
+          <button class="button button-royal" ng-click="viewArchive()">Completed Tasks</button>
+      </ion-list>
+         
+      <ion-toggle ng-model="toggles.filter" ng-change="showFilter()">Show Filters</ion-toggle>
+      <label class="item item-input item-select">
+          <div class="input-label">
+            Sort By...
+            </div>
+        <select ng-model="sort.choice" ng-change="sortTask(sort.choice)">
+            <option selected value="A">A to Z</option>
+            <option value="D">Date Due</option>
+            <option value="S">Date Set</option>
 
-    </select>
-  </label>
+        </select>
+      </label>
       
       
       

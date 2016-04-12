@@ -6,6 +6,10 @@ angular.module('starter.services', [])
     //allow sorting of each list not just allTasks
     //make it auto save when something is added
     //instantly update when clear
+    //make completed tasks viewable in to do
+    //settings shouldl just have buttons and options
+    //not a view into the tasks themselves
+    //would be redundant
     //START STYLING
     
     

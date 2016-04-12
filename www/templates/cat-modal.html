@@ -1,12 +1,20 @@
 <ion-modal-view>
     <ion-content>
+        <ion-list>
+        <ion-item ng-repeat="task in taskTypes">
+           <h2>{{task.title}}</h2>
+            <ion-option-button class="button button-assertive" ng-click="removeType($index)"> Remove Task Type</ion-option-button>
+            </ion-item>
+            
+        </ion-list>
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label">Name of Category</span>
         <input type="text" ng-model="newCat.title" placeholder="Sports,Cleaning etc...">
       </label>
         
-        <button class="button-assertive" ng-click="addCat()">Add</button>
+        <button class="button button-assertive" ng-click="addCat()">Add</button>
+        <!-- must add go back button-->
 
     </div>
     
