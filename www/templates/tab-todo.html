@@ -17,11 +17,13 @@
         
 
     </ion-list>
-      <ion-list ng-show="toggles.filter">
+      <div ng-show="toggles.filter">
+         
           <button ng-repeat="type in taskTypes" class="button button-royal" ng-click="changeView($index)">{{type.title}}</button>
+          
           <button class="button button-royal" ng-click="changeViewAll()">View All Tasks</button>
           <button class="button button-royal" ng-click="viewArchive()">Completed Tasks</button>
-      </ion-list>
+      </div>
          
       <ion-toggle ng-model="toggles.filter" ng-change="showFilter()">Show Filters</ion-toggle>
       <label class="item item-input item-select">

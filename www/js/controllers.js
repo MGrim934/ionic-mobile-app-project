@@ -46,6 +46,7 @@ angular.module('starter.controllers', [])
         //close the modal
         //reset the value
         $scope.newCat.title="";
+        
     }
     $scope.addCat=addCat;
     
@@ -189,6 +190,7 @@ angular.module('starter.controllers', [])
                 
                 console.log("I found you");
                 $scope.removeHere.splice(i,1);
+                Tasks.saveData();
                 //pass in i instead of index because its removeHere list we want to alter
                 //get rid of object in that position
                 //however there is potential for an error
@@ -232,6 +234,7 @@ angular.module('starter.controllers', [])
 
     $scope.closeModal = function() {
     $scope.modal.hide();
+    Tasks.saveData();
       
         
         
@@ -254,8 +257,18 @@ angular.module('starter.controllers', [])
         title: ""
     }
     $scope.toggle= {
-        swipe: true
+        swipe: true,
+        delete: false
     }
+    function showDelete(){
+        console.log("Test");
+        if($scope.toggle.delete==false){
+            $scope.toggle.delete=true;
+        }else{
+            $scope.toggle.delete=false;
+        }
+    }
+    $scope.showDelete=showDelete;
  
     function removeType(index){
         console.log("Removing" + $scope.taskTypes[index].title);
@@ -268,6 +281,7 @@ angular.module('starter.controllers', [])
         Tasks.addCategory($scope.newCat.title);
         $scope.closeModal();
         //close the modal
+        $scope.newCat.title="";
     }
     $scope.addCat=addCat;
     $scope.addType= function (){

@@ -1,6 +1,7 @@
 angular.module('starter.services', [])
 
 .factory('Tasks', function() {
+   
     
     //primary todo list
     //allow sorting of each list not just allTasks
@@ -11,6 +12,11 @@ angular.module('starter.services', [])
     //not a view into the tasks themselves
     //would be redundant
     //START STYLING
+    
+    //setting up archive storage -done
+    //must make it save on each update -done?
+    //make filter better
+    //popup?
     
     
  
@@ -23,6 +29,7 @@ angular.module('starter.services', [])
     
     var taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
     var map = new Map();
+    var completedTasks = [];
     
     
     
@@ -50,6 +57,8 @@ angular.module('starter.services', [])
         //calls two functions which fill up the taskTypes and the map
         fillTypes();
         fillMap();
+        fillArchive();
+        convertToDate();
     }
     
     
@@ -76,13 +85,46 @@ angular.module('starter.services', [])
                 var mapList = map.get(taskTypes[i].title);
                 //get a reference to the maps list
                 
+                //FIX THIS
+      
+               
+                
                 mapList.push.apply(mapList,storedList);
+                
                 //push the stored list into the map
                 //use apply to push each object seperately
                 
             }//if theres something stored
         }//for each task type
     }//fillMap
+    
+    function convertToDate(){
+        
+        for(var key of map.keys()){
+            console.log("key "+key)
+            var list = map.get(key);
+            for(var j=0;j<list.length;j++){
+                list[j].dateSet=new Date(list[j].dateSet);
+                list[j].due=new Date(list[j].due);
+            }
+        }
+        
+        for(var item in completedTasks){
+                completedTasks[item].dateSet=new Date(completedTasks[item].dateSet);
+                 completedTasks[item].due=new Date(completedTasks[item].due);
+        }
+    }
+    
+    //=============================================
+    
+    function fillArchive(){
+        completedTasks=JSON.parse(window.localStorage.getItem('completedTasks'));
+        
+        if(completedTasks==null||completedTasks==undefined||completedTasks==""){
+         completedTasks=[];
+        }
+      
+    }
     
     loadData();
     //this will attempt to load any stored data in
@@ -100,9 +142,18 @@ angular.module('starter.services', [])
         
     }
     
+    function storeArchive(){
+         window.localStorage.setItem('completedTasks',JSON.stringify(completedTasks));
+        
+        
+        
+    }
+    
+    
     function saveData(){
         storeTypes();
         storeMaps();
+        storeArchive();
         //saves the data!
     }
     
@@ -115,10 +166,13 @@ angular.module('starter.services', [])
     function removeType(index){
         if(index>2){
             //need to remove map
+            //dont want to be able to remove the defaults
             map.delete(taskTypes[index].title);
+            window.localStorage.removeItem(taskTypes[index].title);
             taskTypes.splice(index,1);
             showAllTasks();
             //update all tasks
+            saveData();
 
         }
     }//removeType
@@ -127,27 +181,10 @@ angular.module('starter.services', [])
     //got a lot of use out of this when creating map
     //http://bjorn.tipling.com/maps-sets-and-iterators-in-javascript
     
-    //updateMap();
-    
-    function updateMap(){
-        for(i in taskTypes){
-            //check if its already there
-            console.log(taskTypes[i].title);
-            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has
-            if(map.has(taskTypes[i].title)){
-                //do nothing
-            }else{
-                //filling map
-                console.log("adding key "+taskTypes[i].title);
-                map.set(taskTypes[i].title,[]);
-                
-            }
-            
-        }
-    }
+
     
     
-    var allTasks=[{task: "Test", description:"I need to dance..", type: "Work", dateSet: new Date(), due: new Date()}];
+    var allTasks=[{task: "Show All Tasks", description:"Your Tasks will show here!", type: "Work", dateSet: new Date(), due: new Date()}];
     
     function showAllTasks(){
         //create a list that holds everything
@@ -191,6 +228,8 @@ angular.module('starter.services', [])
         if(valid==true){
             var task = {task: task, description: description, type: type, dateSet: new Date(), due: new Date(due)};
             
+            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has
+            
             if(map.has(type)){
                 var list = map.get(type);
                 console.log(task.task);
@@ -202,6 +241,8 @@ angular.module('starter.services', [])
             }
                 
         }//if
+        //must update local storage
+        saveData();
         
     }//end function
     
@@ -277,12 +318,11 @@ angular.module('starter.services', [])
     
 
     
-    var completedTasks = [
-        
-    
-    ];
+
     function clearCompletedTasks(){
         completedTasks.length=0;
+        saveData();
+        //save data
     }
     
     
@@ -317,6 +357,12 @@ angular.module('starter.services', [])
         //derived solution from here
         //http://stackoverflow.com/questions/8217419/how-to-determine-if-javascript-array-contains-object
         var found=false;
+        //first check that its not null, undefined or an empty string
+        if(task==""||task==null||task==undefined){
+            console.log("Can't add nothing!")
+            return;
+        }
+        //returns if its not a valid entry
        
         for(var i=0;i<taskTypes.length;i++){
             if(taskTypes[i].title==task){
@@ -329,6 +375,7 @@ angular.module('starter.services', [])
             taskTypes.push({title: task});
             //updates the map so that it contains the new value!
             updateMap();
+            saveData();
             
         }else{
             console.log("its already there!");
@@ -341,6 +388,7 @@ angular.module('starter.services', [])
         
        // var archivedTask = {task: task.task, type: task.type, dateSet: new Date(task.dateSet), due: new Date(task.due)};
         completedTasks.push(task);
+        saveData();
         console.log("Task Archived");
     
     }
