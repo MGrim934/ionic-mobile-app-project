@@ -91,6 +91,10 @@ angular.module('starter.controllers', [])
         choice: ''
     }
     
+    $scope.viewCategory={
+        view:'Tasks'
+    }
+    
 
     $scope.taskTypes=Tasks.taskTypes;
     $scope.currentView=Tasks.getCategoryTasks("Work");
@@ -115,12 +119,14 @@ angular.module('starter.controllers', [])
     
     function changeView(index){
         console.log(Tasks.taskTypes[index].title);
+        $scope.viewCategory.view=Tasks.taskTypes[index].title;
         $scope.currentView=Tasks.getCategoryTasks(Tasks.taskTypes[index].title);
         //changes the view based on the array index of taskTypes
     }
     
     function changeViewAll(){
         Tasks.showAllTasks();
+        $scope.viewCategory.view="All Active Tasks";
         //ensures allTasks view is up to date
         
         $scope.currentView=Tasks.allTasks;
@@ -128,6 +134,7 @@ angular.module('starter.controllers', [])
     function viewArchive(){
         console.log("view complete");
         $scope.currentView=Tasks.completedTasks;
+        $scope.viewCategory.view="Completed Tasks";
     }
     $scope.viewArchive=viewArchive;
     $scope.changeViewAll=changeViewAll;
@@ -328,6 +335,8 @@ angular.module('starter.controllers', [])
         Tasks.clearCompletedTasks();
     }
     $scope.clearCompletedTasks=clearCompletedTasks;
+    
+    
 
 
 

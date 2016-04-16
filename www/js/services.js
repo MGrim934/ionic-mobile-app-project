@@ -294,6 +294,7 @@ angular.module('starter.services', [])
     
     function sortTask(choice){
         console.log(choice);
+        showAllTasks();
         
         switch(choice){
             case 'A':
