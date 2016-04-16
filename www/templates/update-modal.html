@@ -4,8 +4,9 @@
             <h1 class="title">More Details</h1>
             </ion-header-bar>
               <ion-content>
+                  <h2 class="{{taskCat.colour}}">{{change.type}}</h2>
                   <h1>{{change.task}}</h1>
-                  <h2>{{change.type}}</h2>
+                  
                   <h3>{{change.description}}</h3>
                   <h4>Set: {{change.dateSet.toDateString()}} Due: {{change.due.toDateString()}} </h4>
                   

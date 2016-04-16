@@ -10,7 +10,7 @@
               <i class="icon ion-trash-b"></i>
             Clear Archive
           </ion-item>
-          <ion-item class="item-icon-left" >
+          <ion-item class="item-icon-left" ng-click="showAbout()" >
               <i class="icon ion-information-circled"></i>
             About
           </ion-item>
@@ -21,10 +21,10 @@
                 https://forum.ionicframework.com/t/ion-side-menu-icons-very-small-if-using-ion-item-element-list/4392/2
                 -->
               <i class="icon ion-trash-a"></i>
-              Clear All To-Do Tasks
+              Clear  Saved Data
               <div ng-show="toggle.delete">
-                <h3>Are you sure you want to clear all data?</h3>
-                <Button  class="button button-small button-assertive" ng-click="deleteAllData()">Clear All Data</Button>
+                <h3>Are you sure you want to clear saved data?</h3>
+                <Button  class="button button-small button-assertive" ng-click="clearAllData()">Clear All Saved Data</Button>
               </div>
           </ion-item>
       </ion-list>

@@ -4,12 +4,18 @@ angular.module('starter.controllers', [])
     
     var todo={
         task: "",
-        type: "",
+        type: "Work",
         description: "",
         due: new Date(),
         min: new Date()
        /* http://stackoverflow.com/questions/29086764/set-min-date-to-current-date-in-angularjs-input*/
     }
+
+    function selectType(index){
+        todo.type=Tasks.taskTypes[index].title;
+        
+    }
+    $scope.selectType=selectType;
     $scope.todo=todo;
     //function
     function add (){
@@ -24,6 +30,7 @@ angular.module('starter.controllers', [])
         todo.task="";
         todo.description="";
         todo.type="";
+        //goes back to work
         
        
         
@@ -86,8 +93,19 @@ angular.module('starter.controllers', [])
 .controller('ToDoCtrl', function($scope,Tasks,$ionicModal) {
     //$scope.todo=Tasks.todo;
    // $scope.storeTypes=Tasks.storeTypes;
+    
+    $scope.taskCat={title:"Choose a Filter!", colour:"dark"};
+    //task cat gets the category so that the task type colour can be displayed in the heading
     $scope.completedTasks=Tasks.completedTasks;
-    $scope.sortTask=Tasks.sortTask;
+    $scope.sortTask= function(){
+     
+        changeViewAll();
+        //change the view to all tasks
+        //then sort all the tasks
+        Tasks.sortTask($scope.sort.choice);
+        
+    }
+    //$scope.sortTask=Tasks.sortTask;
     $scope.sort={
         choice: ''
     }
@@ -120,8 +138,10 @@ angular.module('starter.controllers', [])
     
     function changeView(index){
         console.log(Tasks.taskTypes[index].title);
+
         $scope.viewCategory.view=Tasks.taskTypes[index].title;
         $scope.currentView=Tasks.getCategoryTasks(Tasks.taskTypes[index].title);
+        $scope.taskCat=Tasks.taskTypes[index];
         //changes the view based on the array index of taskTypes
     }
     
@@ -129,13 +149,14 @@ angular.module('starter.controllers', [])
         Tasks.showAllTasks();
         $scope.viewCategory.view="All Active Tasks";
         //ensures allTasks view is up to date
+        $scope.taskCat={title: "All Tasks", colour: "royal"};
         
         $scope.currentView=Tasks.allTasks;
     }
     function viewArchive(){
         console.log("view complete");
         $scope.currentView=Tasks.completedTasks;
-        $scope.viewCategory.view="Completed Tasks";
+        $scope.taskCat={title: "All Tasks", colour: "balanced"};
     }
     $scope.viewArchive=viewArchive;
     $scope.changeViewAll=changeViewAll;
@@ -144,13 +165,27 @@ angular.module('starter.controllers', [])
 
     
     
-    
+    function getTaskType(task){
+        //this is so we can display the update form in the right colour
+        var type;
+        for(var i=0;i<Tasks.taskTypes.length;i++){
+            if(Tasks.taskTypes[i].title==task.type){
+                type=Tasks.taskTypes[i];
+                console.log(type.title+" "+type.colour);
+                return type;
+            }
+        }
+        
+    }
     function update (index){
         console.log(index);
         console.log($scope.currentView[index].type);
         //changeView($scope.currentView[index].type);
         $scope.change=$scope.currentView[index];
+        //get a reference to the task type
+        $scope.taskCat=getTaskType($scope.change);
         //get a reference to the object we want to change
+        
         
        
        
@@ -256,9 +291,17 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SettingsCtrl', function($scope,Tasks,$ionicModal) {
+.controller('SettingsCtrl', function($scope,Tasks,$ionicModal,$ionicPopup) {
     $scope.taskTypes=Tasks.taskTypes;
     $scope.storeTypes=Tasks.storeTypes;
+    $scope.showAbout= function(){
+        Tasks.showAbout();
+    }
+    
+
+    
+
+
     //for the modal
     
     $scope.newCat={
@@ -329,7 +372,8 @@ angular.module('starter.controllers', [])
     //completed tasks and stuff
     //local storage stuff
     $scope.saveData=Tasks.saveData;
-    $scope.deleteAllData=Tasks.deleteAllData;
+    //$scope.deleteAllData=Tasks.deleteAllData;
+    $scope.clearAllData=Tasks.clearAllData;
     
     
     function clearCompletedTasks(){

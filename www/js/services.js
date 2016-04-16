@@ -1,16 +1,10 @@
 angular.module('starter.services', [])
 
-.factory('Tasks', function() {
+.factory('Tasks', function($ionicPopup) {
    
     
-    //primary todo list
-    //allow sorting of each list not just allTasks
-    //make it auto save when something is added
-    //instantly update when clear
-    //make completed tasks viewable in to do
-    //settings shouldl just have buttons and options
-    //not a view into the tasks themselves
-    //would be redundant
+   
+
     //START STYLING
     
     //setting up archive storage -done
@@ -23,6 +17,8 @@ angular.module('starter.services', [])
     
     //change select to buttons?
     
+    //update map when cleared data
+    
     
  
     
@@ -32,12 +28,13 @@ angular.module('starter.services', [])
         {title: "Groceries"}
     ]*/
     
-    var taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
+   var taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
     var map = new Map();
     var completedTasks = [];
+    deleteAllData();
     
     
-    
+  
     
     function fillTypes(){
         //if theres nothing stored
@@ -48,15 +45,19 @@ angular.module('starter.services', [])
         
         if(taskTypes==null){
          taskTypes=[
-        {title: "Work"},
-        {title: "Personal"},
-        {title: "Groceries"}]
+        {title: "Work",
+        colour: "positive"},
+        {title: "Personal",
+        colour: "royal"}
+         ]
         }
         
         //loop through each task type
         //fill the map key with each stored array
         
     }
+    
+
     
     function loadData(){
         //calls two functions which fill up the taskTypes and the map
@@ -166,10 +167,13 @@ angular.module('starter.services', [])
         //http://stackoverflow.com/questions/7667958/clear-localstorage
         window.localStorage.clear();
         console.log("Clearing everything");
+        //must update map
     }
     
+
+    
     function removeType(index){
-        if(index>2){
+        if(index>1){
             //need to remove map
             //dont want to be able to remove the defaults
             map.delete(taskTypes[index].title);
@@ -179,6 +183,8 @@ angular.module('starter.services', [])
             //update all tasks
             saveData();
 
+        }else{
+            showTypeRemovalError();
         }
     }//removeType
     
@@ -298,7 +304,7 @@ angular.module('starter.services', [])
     //TODO? implement sorting in whatever list is in the view and not just all tasks
     
     function sortTask(choice){
-        console.log(choice);
+        console.log("Choice"+choice);
         showAllTasks();
         
         switch(choice){
@@ -339,13 +345,17 @@ angular.module('starter.services', [])
         //this is manditory - you can't have a blank task
         if(task==null||task==undefined||task==""){
             console.log("error");
+            showTaskError();
             return false;
+            
             //can't continue as they haven't entered anything!
         }
         //description is allowed to be blank so no need to break
         //now check type
         if(type==null||type==undefined||type==""){
+            showTaskError();
             return false;
+            
             //needs a type
            
         }
@@ -378,7 +388,7 @@ angular.module('starter.services', [])
         }
         if(found==false){
             console.log("adding");
-            taskTypes.push({title: task});
+            taskTypes.push({title: task,colour: "energized"});
             //updates the map so that it contains the new value!
             updateMap();
             saveData();
@@ -418,6 +428,43 @@ angular.module('starter.services', [])
     
     }
     
+    //=================================
+    //popups
+    //got info from here!
+    //http://ionicframework.com/docs/api/service/$ionicPopup/
+    var showTypeRemovalError = function() {
+       var alertPopup = $ionicPopup.alert({
+         title: 'Error!',
+         template: 'You cannot remove Work or Personal Default Categories'
+       });
+
+       alertPopup.then(function(res) {
+         console.log('typeError');
+       });
+     };
+    
+     var showAbout = function() {
+       var alertPopup = $ionicPopup.alert({
+         title: 'Mobile App Development Project!',
+         template: 'This is a Todo app created by Mark Grimes. It allows you to set custom tasks, categories and update the due date of tasks already set'
+       });
+
+       alertPopup.then(function(res) {
+         console.log('About Message');
+       });
+     };
+    
+     var showTaskError = function() {
+       var alertPopup = $ionicPopup.alert({
+         title: 'Error!',
+         template: 'Task or Type cannot be empty!'
+       });
+
+       alertPopup.then(function(res) {
+         console.log('Empty Task Error');
+       });
+     };
+    
     
     
   
@@ -435,7 +482,8 @@ angular.module('starter.services', [])
       storeTypes: storeTypes,
       saveData: saveData,
       deleteAllData: deleteAllData,
-      sortTask: sortTask
+      sortTask: sortTask,
+      showAbout: showAbout
 
   };
 })
