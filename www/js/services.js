@@ -18,6 +18,11 @@ angular.module('starter.services', [])
     //make filter better
     //popup?
     
+    //when clear all data
+    //must also clear from map
+    
+    //change select to buttons?
+    
     
  
     
@@ -383,6 +388,25 @@ angular.module('starter.services', [])
         }
         
     }
+    
+
+    //adds a tasktype key to the map
+         function updateMap(){
+         for(i in taskTypes){
+             //check if its already there
+             console.log(taskTypes[i].title);
+             //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has
+             if(map.has(taskTypes[i].title)){
+                 //do nothing
+             }else{
+                 //filling map
+                 console.log("adding key "+taskTypes[i].title);
+                 map.set(taskTypes[i].title,[]);
+                 
+             }
+             
+         }
+     }
     
     //function to archive Tasks
     function archiveTask(task){

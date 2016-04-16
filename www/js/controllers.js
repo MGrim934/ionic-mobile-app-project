@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
     
     var todo={
         task: "",
-        type: Tasks.taskTypes[Tasks.taskTypes.length-1].title,
+        type: "",
         description: "",
         due: new Date(),
         min: new Date()
@@ -23,6 +23,7 @@ angular.module('starter.controllers', [])
        // console.log(todo.task + "Type "+ todo.type+todo.due);
         todo.task="";
         todo.description="";
+        todo.type="";
         
        
         
