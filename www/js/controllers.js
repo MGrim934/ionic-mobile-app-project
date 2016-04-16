@@ -372,8 +372,8 @@ angular.module('starter.controllers', [])
     //completed tasks and stuff
     //local storage stuff
     $scope.saveData=Tasks.saveData;
-    //$scope.deleteAllData=Tasks.deleteAllData;
-    $scope.clearAllData=Tasks.clearAllData;
+    $scope.deleteAllData=Tasks.deleteAllData;
+  
     
     
     function clearCompletedTasks(){

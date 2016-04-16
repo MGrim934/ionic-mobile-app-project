@@ -19,6 +19,8 @@ angular.module('starter.services', [])
     
     //update map when cleared data
     
+    //dupes
+    
     
  
     
@@ -28,10 +30,11 @@ angular.module('starter.services', [])
         {title: "Groceries"}
     ]*/
     
-   var taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
+    var taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
     var map = new Map();
     var completedTasks = [];
-    deleteAllData();
+   
+    loadData();
     
     
   
@@ -50,6 +53,10 @@ angular.module('starter.services', [])
         {title: "Personal",
         colour: "royal"}
          ]
+        }else{
+            for(var i=0;i<taskTypes.length;i++){
+                console.log("T"+ taskTypes[i].title);
+            }
         }
         
         //loop through each task type
@@ -132,10 +139,10 @@ angular.module('starter.services', [])
       
     }
     
-    loadData();
-    //this will attempt to load any stored data in
+
     
     function storeTypes(){
+        window.localStorage.setItem('taskTypes',{});
         window.localStorage.setItem('taskTypes',JSON.stringify(taskTypes));
         //simply stores all taskTypes
     }
@@ -157,6 +164,7 @@ angular.module('starter.services', [])
     
     
     function saveData(){
+        window.localStorage.clear();
         storeTypes();
         storeMaps();
         storeArchive();
@@ -224,7 +232,7 @@ angular.module('starter.services', [])
     }
     
     function getCategoryTasks(category){
-        console.log("TTTTTTTTTTTEST");
+        console.log("Attempting to get category");
         if(map.has(category)){
             console.log("returning "+category);
             return map.get(category);
@@ -388,10 +396,14 @@ angular.module('starter.services', [])
         }
         if(found==false){
             console.log("adding");
-            taskTypes.push({title: task,colour: "energized"});
+            taskTypes.push({title: task, colour: "energized"});
+            
             //updates the map so that it contains the new value!
+            saveData();
             updateMap();
             saveData();
+            console.log("saved");
+            
             
         }else{
             console.log("its already there!");
@@ -402,7 +414,7 @@ angular.module('starter.services', [])
 
     //adds a tasktype key to the map
          function updateMap(){
-         for(i in taskTypes){
+         for(var i=0;i<taskTypes.length;i++){
              //check if its already there
              console.log(taskTypes[i].title);
              //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has

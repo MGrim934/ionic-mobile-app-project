@@ -1,7 +1,7 @@
 <ion-modal-view>
     <ion-content>
         <ion-list>
-        <ion-item ng-repeat="task in taskTypes">
+        <ion-item ng-repeat="task in taskTypes track by $index">
            <h2>{{task.title}}</h2>
             <ion-option-button class="button button-assertive" ng-click="removeType($index)"> Remove Task Type</ion-option-button>
             </ion-item>
