@@ -14,6 +14,7 @@ angular.module('starter.controllers', [])
     function selectType(index){
         todo.type=Tasks.taskTypes[index].title;
         
+        
     }
     $scope.selectType=selectType;
     $scope.todo=todo;
@@ -93,8 +94,9 @@ angular.module('starter.controllers', [])
 .controller('ToDoCtrl', function($scope,Tasks,$ionicModal) {
     //$scope.todo=Tasks.todo;
    // $scope.storeTypes=Tasks.storeTypes;
+    $scope.taskTypes=Tasks.taskTypes;
     
-    $scope.taskCat={title:"Choose a Filter!", colour:"dark"};
+    $scope.taskCat={title:"todo 3000", colour:"royal"};
     //task cat gets the category so that the task type colour can be displayed in the heading
     $scope.completedTasks=Tasks.completedTasks;
     $scope.sortTask= function(){
@@ -115,7 +117,7 @@ angular.module('starter.controllers', [])
     }
     
 
-    $scope.taskTypes=Tasks.taskTypes;
+    
     $scope.currentView=Tasks.getCategoryTasks("Work");
     $scope.allTasks=Tasks.allTasks;
     $scope.showAllTasks=Tasks.showAllTasks;
@@ -149,14 +151,14 @@ angular.module('starter.controllers', [])
         Tasks.showAllTasks();
         $scope.viewCategory.view="All Active Tasks";
         //ensures allTasks view is up to date
-        $scope.taskCat={title: "All Tasks", colour: "royal"};
+        $scope.taskCat={title: "All", colour: "royal"};
         
         $scope.currentView=Tasks.allTasks;
     }
     function viewArchive(){
         console.log("view complete");
         $scope.currentView=Tasks.completedTasks;
-        $scope.taskCat={title: "All Tasks", colour: "balanced"};
+        $scope.taskCat={title: "Completed", colour: "balanced"};
     }
     $scope.viewArchive=viewArchive;
     $scope.changeViewAll=changeViewAll;

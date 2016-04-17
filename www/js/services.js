@@ -6,11 +6,11 @@ angular.module('starter.services', [])
    
 
     //START STYLING
+    //bug triggers when you add a category and then quit out
+    //if you attempt to refresh from todo list instead of new entry or the other one
     
-    //setting up archive storage -done
-    //must make it save on each update -done?
-    //make filter better
-    //popup?
+   
+    
     
     //when clear all data
     //must also clear from map
@@ -30,11 +30,14 @@ angular.module('starter.services', [])
         {title: "Groceries"}
     ]*/
     
-    var taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
+    var taskTypes=[];
     var map = new Map();
     var completedTasks = [];
+        
+    var allTasks=[{task: "Show All Tasks", description:"Your Tasks will show here!", type: "Work", dateSet: new Date(), due: new Date()}];
+    
    
-    loadData();
+    
     
     
   
@@ -45,6 +48,7 @@ angular.module('starter.services', [])
         //this is run when the program starts
         //if theres stuff stored
         //it will do nothing
+        taskTypes = JSON.parse(window.localStorage.getItem('taskTypes'));
         
         if(taskTypes==null){
          taskTypes=[
@@ -55,7 +59,7 @@ angular.module('starter.services', [])
          ]
         }else{
             for(var i=0;i<taskTypes.length;i++){
-                console.log("T"+ taskTypes[i].title);
+                console.log("Task"+i+" "+ taskTypes[i].title);
             }
         }
         
@@ -63,6 +67,7 @@ angular.module('starter.services', [])
         //fill the map key with each stored array
         
     }
+    loadData();
     
 
     
@@ -140,9 +145,11 @@ angular.module('starter.services', [])
     }
     
 
+    //stores taskTypes
+    //-----
     
     function storeTypes(){
-        window.localStorage.setItem('taskTypes',{});
+        //window.localStorage.setItem('taskTypes',{});
         window.localStorage.setItem('taskTypes',JSON.stringify(taskTypes));
         //simply stores all taskTypes
     }
@@ -185,10 +192,11 @@ angular.module('starter.services', [])
             //need to remove map
             //dont want to be able to remove the defaults
             map.delete(taskTypes[index].title);
-            window.localStorage.removeItem(taskTypes[index].title);
+           // window.localStorage.removeItem(taskTypes[index].title);
             taskTypes.splice(index,1);
             showAllTasks();
             //update all tasks
+            
             saveData();
 
         }else{
@@ -202,8 +210,7 @@ angular.module('starter.services', [])
     
 
     
-    
-    var allTasks=[{task: "Show All Tasks", description:"Your Tasks will show here!", type: "Work", dateSet: new Date(), due: new Date()}];
+
     
     function showAllTasks(){
         //create a list that holds everything
@@ -341,7 +348,7 @@ angular.module('starter.services', [])
 
     function clearCompletedTasks(){
         completedTasks.length=0;
-        saveData();
+        storeArchive();
         //save data
     }
     
@@ -399,10 +406,12 @@ angular.module('starter.services', [])
             taskTypes.push({title: task, colour: "energized"});
             
             //updates the map so that it contains the new value!
-            saveData();
+            
             updateMap();
+            
+            
             saveData();
-            console.log("saved");
+            console.log("saved data I hope");
             
             
         }else{
@@ -428,6 +437,7 @@ angular.module('starter.services', [])
              }
              
          }
+
      }
     
     //function to archive Tasks
@@ -435,7 +445,7 @@ angular.module('starter.services', [])
         
        // var archivedTask = {task: task.task, type: task.type, dateSet: new Date(task.dateSet), due: new Date(task.due)};
         completedTasks.push(task);
-        saveData();
+        storeArchive();
         console.log("Task Archived");
     
     }
