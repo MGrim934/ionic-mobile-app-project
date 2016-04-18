@@ -14,10 +14,41 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
-
+$energized:  	#ff8d1c !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+.task{
+    
+    text-align: left;
+}
+
+h2{
+    font-variant: small-caps;
+    color: $royal;
+    text-align: center;
+}
+
+
+
+.description{
+    text-align:left;
+    font-weight: lighter;
+    
+  
+}
+.dates{
+    
+    text-align: right;
+}
+.tdList{
+    text-align: left;
+    font-variant: small-caps;
+    font-size: large;
+}
+
+
 

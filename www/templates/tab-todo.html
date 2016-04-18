@@ -1,12 +1,16 @@
-<ion-view view-title="ToDos!">
+<ion-view view-title="ToDo 3000">
   <ion-content>
       
      <!-- http://stackoverflow.com/questions/29086764/set-min-date-to-current-date-in-angularjs-input-->
-    <ion-list can-swipe="toggles.swipe">
+      <div class="card">
         <h2 class="{{taskCat.colour}}">{{taskCat.title}}</h2>
-      <ion-item class="assertive" ng-repeat="item in currentView" ng-click="update($index)">
-        <h3>{{item.task}}</h3> 
-        <p>{{item.type}} Due: {{item.due.toDateString()}}</p>
+          </div>
+    <ion-list can-swipe="toggles.swipe">
+        
+        
+      <ion-item  ng-repeat="item in currentView" ng-click="update($index)">
+          <h2 class="tdList {{taskCat.colour}}">{{item.task}}</h2> 
+            <p>Due: {{item.due.toDateString()}}</p>
          
           
           <ion-option-button class="icon-left ion-android-checkmark-circle button-balanced" ng-click="archive($index)">Archive</ion-option-button>
@@ -22,10 +26,10 @@
             this thread helped me work with ng-class to some extent-->
           
         
-          <button class="button button-small" ng-repeat="type in taskTypes"  ng-click="changeView($index)" ng-class="'button-{{type.colour}}'">{{type.title}}</button>
+          <button class="button " ng-repeat="type in taskTypes"  ng-click="changeView($index)" ng-class="'button-{{type.colour}}'">{{type.title}}</button>
           
-        <button class="button button-small" ng-click="changeViewAll()">View All Tasks</button>
-          <button class="button button-small" ng-click="viewArchive()">Completed Tasks</button>
+        <button class="button button-bar  button-royal" ng-click="changeViewAll()">View All Tasks</button>
+          <button class="button button-bar button-balanced" ng-click="viewArchive()">Completed Tasks</button>
         
       </div>
          
@@ -34,6 +38,7 @@
           <div class="input-label">
             Sort By...
             </div>
+          
         <select ng-model="sort.choice" ng-change="sortTask(sort.choice)">
             <option selected value="A">A to Z</option>
             <option value="D">Date Due</option>

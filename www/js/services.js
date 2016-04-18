@@ -2,39 +2,27 @@ angular.module('starter.services', [])
 
 .factory('Tasks', function($ionicPopup) {
    
-    
-   
-
-    //START STYLING
-    //bug triggers when you add a category and then quit out
-    //if you attempt to refresh from todo list instead of new entry or the other one
-    
-   
-    
-    
-    //when clear all data
-    //must also clear from map
-    
-    //change select to buttons?
-    
-    //update map when cleared data
-    
-    //dupes
+    //Mark Grimes
+    //ToDo3000
     
     
  
-    
- /*   var taskTypes=[
-        {title: "Work"},
-        {title: "Personal"},
-        {title: "Groceries"}
-    ]*/
-    
+
     var taskTypes=[];
+    //stores the types of tasks
+    //user can add custom tasks
     var map = new Map();
+    //map has a key: taskType and a value of a list
+    
+    //got a lot of use out of this when creating map
+    //http://bjorn.tipling.com/maps-sets-and-iterators-in-javascript
+    
     var completedTasks = [];
+    //if the user wishes to archive tasks
         
     var allTasks=[{task: "Show All Tasks", description:"Your Tasks will show here!", type: "Work", dateSet: new Date(), due: new Date()}];
+    //all tasks is simply an array of task objects that updates with all of the map values
+    //should the user want to see it all
     
    
     
@@ -55,19 +43,16 @@ angular.module('starter.services', [])
         {title: "Work",
         colour: "positive"},
         {title: "Personal",
-        colour: "royal"}
+        colour: "energized"}
          ]
-        }else{
-            for(var i=0;i<taskTypes.length;i++){
-                console.log("Task"+i+" "+ taskTypes[i].title);
-            }
+         //these are the default two categories
+         //the user can add 3 on top of this
+         //capped it at 5 categories max
         }
-        
-        //loop through each task type
-        //fill the map key with each stored array
-        
+
     }
     loadData();
+    //attempts to fill the objects from local storage
     
 
     
@@ -77,6 +62,7 @@ angular.module('starter.services', [])
         fillMap();
         fillArchive();
         convertToDate();
+        //more comprehensive information on these functions below
     }
     
     
@@ -94,7 +80,7 @@ angular.module('starter.services', [])
                 
                 //now in the map
             }
-            //now append to the map
+           
             
             var storedList=JSON.parse(window.localStorage.getItem(taskTypes[i].title));
             //check if its null
@@ -103,33 +89,37 @@ angular.module('starter.services', [])
                 var mapList = map.get(taskTypes[i].title);
                 //get a reference to the maps list
                 
-                //FIX THIS
-      
-               
-                
                 mapList.push.apply(mapList,storedList);
-                
                 //push the stored list into the map
                 //use apply to push each object seperately
+                //otherwise it would push the array as one object!
                 
             }//if theres something stored
         }//for each task type
     }//fillMap
     
     function convertToDate(){
+        //we must convert the things taken in from JSON storage
+        //otherwise it would just be strings
+        //make them date objects
         
         for(var key of map.keys()){
             console.log("key "+key)
+            //for every key in the map
             var list = map.get(key);
+            //get the value list associated with each key
             for(var j=0;j<list.length;j++){
                 list[j].dateSet=new Date(list[j].dateSet);
                 list[j].due=new Date(list[j].due);
+                //convert everything to dates
             }
         }
         
         for(var item in completedTasks){
                 completedTasks[item].dateSet=new Date(completedTasks[item].dateSet);
                  completedTasks[item].due=new Date(completedTasks[item].due);
+            //do the same as above for the completed task object
+            //stored in its own list instead of a map
         }
     }
     
@@ -157,13 +147,17 @@ angular.module('starter.services', [])
         
         for(var key of map.keys()){
             window.localStorage.setItem(key,JSON.stringify(map.get(key)));
-            //eg should store "Work", and the object array associated with it
+            // should store "Work", and the object array associated with it
+            //do this for every task type
+            //this can change, if the user has custom tasks
+            //so it makes sense to use key of map.keys
         }
         
     }
     
     function storeArchive(){
          window.localStorage.setItem('completedTasks',JSON.stringify(completedTasks));
+        //stores completed tasks
         
         
         
@@ -182,6 +176,16 @@ angular.module('starter.services', [])
         //http://stackoverflow.com/questions/7667958/clear-localstorage
         window.localStorage.clear();
         console.log("Clearing everything");
+        taskTypes.length=0;
+        taskTypes.push(
+        {title: "Work",
+        colour: "positive"});
+        taskTypes.push({title: "Personal",
+        colour: "energized"});
+        //resets everything
+         
+        map.clear();
+        fillMap();
         //must update map
     }
     
@@ -192,21 +196,23 @@ angular.module('starter.services', [])
             //need to remove map
             //dont want to be able to remove the defaults
             map.delete(taskTypes[index].title);
-           // window.localStorage.removeItem(taskTypes[index].title);
+           
             taskTypes.splice(index,1);
+            //splices whatever tasktype was chosen out of the list
             showAllTasks();
             //update all tasks
             
             saveData();
+            //saves the update
 
         }else{
             showTypeRemovalError();
+            //using $ionicpopup to show an error
         }
     }//removeType
     
 
-    //got a lot of use out of this when creating map
-    //http://bjorn.tipling.com/maps-sets-and-iterators-in-javascript
+
     
 
     
@@ -316,9 +322,13 @@ angular.module('starter.services', [])
     }
     
     //sorts allTasks
-    //TODO? implement sorting in whatever list is in the view and not just all tasks
+
     
     function sortTask(choice){
+        //this switches the active view to all tasks
+        //then sorts all tasks by whatever choice was made
+        //switch statement
+        //uses a different way of comparing objects
         console.log("Choice"+choice);
         showAllTasks();
         
@@ -384,6 +394,16 @@ angular.module('starter.services', [])
     //function to allow a user to add a task category
     
     function addCategory(task){
+        
+        //first check if there are already 5 categories
+        //2 default
+        //3 custom
+        //this is the limit!
+        if(taskTypes.length>=5){
+            showTooManyCats();
+            return;
+            //shows a pop up saying to delete a few!
+        }
         //Need to check to see if the object is already in the taskType array
         //derived solution from here
         //http://stackoverflow.com/questions/8217419/how-to-determine-if-javascript-array-contains-object
@@ -399,11 +419,28 @@ angular.module('starter.services', [])
             if(taskTypes[i].title==task){
                 found=true;
                 break;
+                //if its found, it cannot be added again!
             }
         }
         if(found==false){
             console.log("adding");
-            taskTypes.push({title: task, colour: "energized"});
+            //the colour
+            var length=taskTypes.length;
+            var col;
+            //sets a different colour based off of the custom category
+            //for maximum prettiness
+            switch(length){
+                case 2:
+                    col="calm";
+                    break;
+                case 3:
+                    col="assertive";
+                    break;
+                default:
+                    col="royal";
+                    
+            }
+            taskTypes.push({title: task, colour: col});
             
             //updates the map so that it contains the new value!
             
@@ -411,11 +448,13 @@ angular.module('starter.services', [])
             
             
             saveData();
-            console.log("saved data I hope");
+            //saving the data
+           
             
             
         }else{
             console.log("its already there!");
+            //this was just test code
         }
         
     }
@@ -427,11 +466,12 @@ angular.module('starter.services', [])
              //check if its already there
              console.log(taskTypes[i].title);
              //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has
+             
              if(map.has(taskTypes[i].title)){
-                 //do nothing
+                 //do nothing if its already there
              }else{
                  //filling map
-                 console.log("adding key "+taskTypes[i].title);
+                 //create a key and add an empty array
                  map.set(taskTypes[i].title,[]);
                  
              }
@@ -443,8 +483,9 @@ angular.module('starter.services', [])
     //function to archive Tasks
     function archiveTask(task){
         
-       // var archivedTask = {task: task.task, type: task.type, dateSet: new Date(task.dateSet), due: new Date(task.due)};
         completedTasks.push(task);
+        //pushes whatever object the user wanted to push into the completed task
+        //then saves the archive
         storeArchive();
         console.log("Task Archived");
     
@@ -465,10 +506,21 @@ angular.module('starter.services', [])
        });
      };
     
+    var showTooManyCats = function() {
+       var alertPopup = $ionicPopup.alert({
+         title: 'Error!',
+         template: 'You can only have 3 custom categories at once.'
+       });
+
+       alertPopup.then(function(res) {
+         console.log('typeError');
+       });
+     };
+    
      var showAbout = function() {
        var alertPopup = $ionicPopup.alert({
-         title: 'Mobile App Development Project!',
-         template: 'This is a Todo app created by Mark Grimes. It allows you to set custom tasks, categories and update the due date of tasks already set'
+         title: 'ToDo3000',
+         template: 'A Todo app created by Mark Grimes. It allows you to set and update tasks, as well as assign custom categories.'
        });
 
        alertPopup.then(function(res) {

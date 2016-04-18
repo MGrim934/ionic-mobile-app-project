@@ -1,6 +1,9 @@
-<ion-view view-title="Entry">
+<ion-view view-title="New Entry">
+    <!-- This is the form the user must fill to add a new entry to any of the lists-->
       <ion-content class="padding">
-          <h2 class="royal">something to do?</h2>
+          <div class="card">
+            <h2 >something to do?</h2>
+              </div>
           <!-- Goal here is to allow the user to
             add a new entry
             due date
@@ -19,7 +22,7 @@
           
             <div class="item">
                 <p>Category: {{todo.type}}</p>
-                <button class="button button-small" ng-repeat="type in taskTypes"  ng-click="selectType($index)" ng-class="'button-{{type.colour}}'">{{type.title}}</button>
+                <button class="button button-small button-bar" ng-repeat="type in taskTypes"  ng-click="selectType($index)" ng-class="'button-{{type.colour}}'">{{type.title}}</button>
             </div>
     
         
@@ -30,7 +33,7 @@
     <span class="input-label">Due Date: </span>
     <input type="date" min="{{todo.min | date: 'yyyy-MM-dd'}}" ng-model="todo.due" placeholder="Enter Due Date!">
   </label>
-        <button class="button button-royal" ng-click="add()">Add Task</button>
+        <button class="button button-bar button-royal" ng-click="add()">Add Task</button>
     </div>
     
 

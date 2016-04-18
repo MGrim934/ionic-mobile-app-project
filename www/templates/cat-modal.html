@@ -1,8 +1,11 @@
 <ion-modal-view>
     <ion-content>
+        <!-- this shows when a user wants to add a category to their options.
+        Once they have done this they can choose it as a category in the new entries. There is a maximum of 5 categories, including 2 custom categories-->
+        
         <ion-list>
         <ion-item ng-repeat="task in taskTypes track by $index">
-           <h2>{{task.title}}</h2>
+           <h3 class="{{task.colour}}">{{task.title}}</h3>
             <ion-option-button class="button button-assertive" ng-click="removeType($index)"> Remove Task Type</ion-option-button>
             </ion-item>
             
@@ -14,7 +17,7 @@
       </label>
         
         <button class="button button-balanced" ng-click="addCat()">Add</button>
-        <button class="button button-assertive" ng-click="closeModal()">Cancel</button>
+        <button class="button button-positive" ng-click="closeModal()">Back</button>
         <!-- must add go back button-->
 
     </div>
