@@ -88,8 +88,10 @@ This was a fun little problem to over-come.
 I decided to tie each task type to a colour that is passed to the view when displaying a list. This creates different colour styles for each button
 or heading for each category. A small feature, but one that differentiates each category from each other.
 
+
+###More Information
+
 I have commented the services and controller to give further insight into my design decisions and solutions.
 Please contact me if you have any questions.
 
-Thank you,
 Mark Grimes
