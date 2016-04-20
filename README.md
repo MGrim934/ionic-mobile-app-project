@@ -91,7 +91,7 @@ or heading for each category. A small feature, but one that differentiates each 
 
 ###More Information
 
-I have commented the services and controller to give further insight into my design decisions and solutions.
+I have commented the factory and controllers to give further insight into my design decisions and solutions.
 Please contact me if you have any questions.
 
-Mark Grimes
+-Mark Grimes
