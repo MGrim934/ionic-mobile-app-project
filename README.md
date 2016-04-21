@@ -88,6 +88,9 @@ This was a fun little problem to over-come.
 I decided to tie each task type to a colour that is passed to the view when displaying a list. This creates different colour styles for each button
 or heading for each category. A small feature, but one that differentiates each category from each other.
 
+###Errors
+If you find a bug, please feel free to contact me! If you experience unexpected behaviour, try clearing all data (in the settings tab), shutting the app down and reloading the app. I have done my best to work out as many issues and potential errors as possible.
+
 
 ###More Information
 
